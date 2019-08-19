@@ -1,1 +1,0 @@
-aws config does not add any message attubuts therefore email is just pure spam as it can not be filterd without first passing into a sqs queue
