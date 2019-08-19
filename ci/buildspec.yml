@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.7
+    commands:
+      - echo Entered the install phase...
+      - apt-get update -y
+      - git clone https://github.com/tfutils/tfenv.git ~/.tfenv
+      - ln -s ~/.tfenv/bin/* /usr/local/bin
+      - tfenv install min-required
+    finally:
+      - echo This always runs even if the update or install command fails
+  build:
+    commands:
+      - terraform init
+      - terraform validate
