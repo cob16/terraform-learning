@@ -13,7 +13,7 @@ module "label" {
 
   namespace  = "cormac"
   stage      = "dev"
-  attributes = ["ci"]
-  name       = "test"
+//  attributes = []
+  name       = "global-accel"
 }
 
