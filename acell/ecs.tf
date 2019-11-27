@@ -1,11 +1,11 @@
 resource "aws_cloudwatch_log_group" "logging-api-log-group" {
-  name  = module.label.id
+  name = module.label.id
 
   retention_in_days = 14
 }
 
 resource "aws_ecr_repository" "logging-api-ecr" {
-  name  = module.label.id
+  name = module.label.id
 }
 
 resource "aws_ecs_task_definition" "logging-api-task" {
@@ -95,15 +95,15 @@ data "aws_availability_zones" "available" {
 }
 
 module "networking" {
-  source          = "cn-terraform/networking/aws"
-  version         = "2.0.3"
-  name_preffix    = module.label.id
-  region          = data.aws_region.current.name
-  profile         = "aws_profile"
-  vpc_cidr_block  = "192.168.0.0/16"
-  availability_zones                          =  data.aws_availability_zones.available.names
-  public_subnets_cidrs_per_availability_zone  = [ "192.168.0.0/19", "192.168.32.0/19", "192.168.64.0/19", "192.168.96.0/19" ]
-  private_subnets_cidrs_per_availability_zone = [ "192.168.128.0/19", "192.168.160.0/19", "192.168.192.0/19", "192.168.224.0/19" ]
+  source                                      = "cn-terraform/networking/aws"
+  version                                     = "2.0.3"
+  name_preffix                                = module.label.id
+  region                                      = data.aws_region.current.name
+  profile                                     = "aws_profile"
+  vpc_cidr_block                              = "192.168.0.0/16"
+  availability_zones                          = data.aws_availability_zones.available.names
+  public_subnets_cidrs_per_availability_zone  = ["192.168.0.0/19", "192.168.32.0/19", "192.168.64.0/19", "192.168.96.0/19"]
+  private_subnets_cidrs_per_availability_zone = ["192.168.128.0/19", "192.168.160.0/19", "192.168.192.0/19", "192.168.224.0/19"]
 }
 
 resource "aws_ecs_service" "logging-api-service" {
@@ -153,28 +153,28 @@ resource "aws_alb_target_group" "logging-api-tg" {
 resource "aws_lb" "lb" {
   load_balancer_type = "application"
 
-  name = module.label.id
+  name            = module.label.id
   security_groups = [aws_security_group.stupid_dangrous_sg.id]
-  subnets = module.networking.public_subnets_ids
+  subnets         = module.networking.public_subnets_ids
 
   enable_cross_zone_load_balancing = true
-  internal = false
+  internal                         = false
 }
 
 resource "aws_alb_listener" "listener" {
   load_balancer_arn = aws_lb.lb.arn
 
-  port = 80
+  port     = 80
   protocol = "HTTP"
 
   default_action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_alb_target_group.logging-api-tg.arn
   }
 }
 
 resource "aws_iam_role" "logging-api-task-role" {
-  name  = "${module.label.id}-logging-api-task-role"
+  name = "${module.label.id}-logging-api-task-role"
 
   assume_role_policy = <<EOF
 {

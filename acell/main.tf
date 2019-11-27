@@ -11,9 +11,9 @@ module "label" {
   source  = "cloudposse/label/terraform"
   version = "0.4.0"
 
-  namespace  = "cormac"
-  stage      = "dev"
-//  attributes = []
-  name       = "global-accel"
+  namespace = "cormac"
+  stage     = "dev"
+  //  attributes = []
+  name = "global-accel"
 }
 
