@@ -7,10 +7,13 @@ provider "aws" {
   version = "~> 2.46"
 }
 
+variable "interview_name" {
+  type = string
+}
 
 module "label" {
   source     = "git::https://github.com/cloudposse/terraform-terraform-label.git?ref=tags/0.4.0"
-  namespace  = "cormac"
+  namespace  = var.interview_name
   stage      = terraform.workspace
   name       = "paring"
   attributes = ["interview"]
